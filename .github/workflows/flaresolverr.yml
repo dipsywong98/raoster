@@ -1,0 +1,31 @@
+name: flaresolverr
+
+on:
+  workflow_dispatch:
+    inputs:
+      solve_challenge_url:
+        description: URL to solve challenge
+      request_urls:
+        description: comma separated urls that you interested, each will invoke callback_url once
+      callback_url:
+        description: after processing, the url to hit, hit with json with header, body and request_url in body. can return str[] request_urls in json body and do another bunch of requests
+
+env:
+  SOLVE_CHALLENGE_URL: ${{ github.event.inputs.solve_challenge_url }}
+  REQUEST_URLS: ${{ github.event.inputs.request_urls }}
+  CALLBACK_URL: ${{ github.event.inputs.callback_url }}
+  FLARESOLVERR_URL: http://flaresolverr:8191
+
+jobs:
+  flaresolverr:
+    runs-on: ubuntu-latest
+    container: python
+    services:
+      flaresolverr:
+        image: flaresolverr/flaresolverr
+        ports:
+          - 8191:8191
+    steps:
+      - uses: actions/checkout@v2
+      - run: pip install requests
+      - run: python flaresolverr.py
