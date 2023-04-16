@@ -88,15 +88,7 @@ class FlareSolverr:
                 self.chain_requests(result['request_urls'])
 
 if __name__ == '__main__':
-    import argparse
     import os
-
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument("--callback-url", required=True)
-    # parser.add_argument("--request-urls", required=True)
-    # parser.add_argument("--flaresolverr-url", required=True)
-    # parser.add_argument("--solve-challenge-url", required=True)
-    # args = parser.parse_args()
 
     flaresolverr_url = os.environ.get('FLARESOLVERR_URL')
     callback_url = os.environ.get('CALLBACK_URL')
