@@ -22,6 +22,9 @@ class FlareSolverr:
             headers={'Content-Type': 'application/json'},
             json=post_body
         )
+        if response.status_code >= 400:
+            print("error occured when creating session", response.text)
+            return
         response.raise_for_status()
         print(f"2. created session, solving challenge")
 
@@ -29,13 +32,16 @@ class FlareSolverr:
             "cmd": "request.get",
             "session": "mm-test",
             "url": url,
-            "maxTimeout": 60000
+            "maxTimeout": 180000
         }
         response = requests.post(
             f'{self.flaresolverr_url}/v1',
             headers={'Content-Type': 'application/json'},
             json=post_body
         )
+        if response.status_code >= 400:
+            print("error occured when solving challenge", response.text)
+            return
         response.raise_for_status()
         print(f"3. solved challenge")
 
