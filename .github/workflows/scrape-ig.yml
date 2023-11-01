@@ -26,6 +26,7 @@ jobs:
           tarBall: false
           zipBall: false
           extract: true
+          token: ${{ secrets.MIRROR_ON_WALL_GH_TOKEN }}
       - uses: actions/setup-node@v3
         with:
           node-version: "18.16.0"
