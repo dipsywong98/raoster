@@ -2,7 +2,9 @@ name: scrape-ig
 
 on:
   workflow_dispatch:
-    inputs: {}
+    inputs:
+      force_fetch_ig_id:
+        description: optional comma separated list of ig post short code that you want to force scrape
   push:
     branches: ["**"]
     # tags: ["**"]
@@ -13,6 +15,7 @@ env:
   BOT_TOKEN: ${{secrets.BOT_TOKEN}}
   MONGO_URL: ${{secrets.MONGO_URL}}
   REDIS_URL: ${{secrets.REDIS_URL}}
+  FORCE_FETCH_IG_ID: ${{inputs.force_fetch_ig_id}}
 
 jobs:
   scrape:
