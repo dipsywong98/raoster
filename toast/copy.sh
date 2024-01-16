@@ -59,7 +59,8 @@ start_copy() {
   fi
 }
 
-cp -r toast/website/* $path
+mv toast/website toast/$path
+cp -r toast/$path .
 
 if compgen -G "cache-parts*" > /dev/null; then
   echo "detected cache, unzipping cache"
