@@ -20,6 +20,7 @@ jobs:
           repository: ${{inputs.repo}}
           path: website
       - uses: robinraju/release-downloader@v1.8
+        continue-on-error: true
         with:
           repository: ${{inputs.repo}}
           latest: true
