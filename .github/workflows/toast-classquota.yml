@@ -17,3 +17,4 @@ jobs:
         github_token: ${{ secrets.TOAST_TOKEN }}
         workflow_file_name: toast.yml
         client_payload: '{"url": "https://w5.ab.ust.hk/wcq/cgi-bin/2320/", "repo": "dipsywong98/toast-classquota"}'
+        ref: master
