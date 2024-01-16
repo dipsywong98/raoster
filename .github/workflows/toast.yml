@@ -27,11 +27,11 @@ jobs:
           tarBall: false
           zipBall: false
           extract: false
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.TOAST_TOKEN }}
       - run: ls
       - run: sh toast/copy.sh ${{ inputs.url }} "website"
       - uses: ncipollo/release-action@v1
         with:
           artifacts: dist/cache-parts*
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.TOAST_TOKEN }}
           repo: ${{inputs.repo}}
