@@ -1,6 +1,6 @@
 set -e
 url=$1 # "https://w5.ab.ust.hk/wcq/cgi-bin/2320/"
-path=$2 # "example"
+path="website"
 limit=1000000000000
 timeout=18000 # interrupt if run for 5 hours
 lock_file="$path/hts-paused.lock"
@@ -59,7 +59,6 @@ start_copy() {
   fi
 }
 
-mv toast/website toast/$path
 cp -r toast/$path .
 
 if compgen -G "cache-parts*" > /dev/null; then
