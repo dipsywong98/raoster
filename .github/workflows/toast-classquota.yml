@@ -1,0 +1,19 @@
+name: toast-classquota
+
+on:
+  workflow_dispatch:
+    inputs: {}
+  push:
+    branches: ["**"]
+
+jobs:
+  toast:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: convictional/trigger-workflow-and-wait@v1.6.1
+      with:
+        owner: dipsywong98
+        repo: roaster
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        workflow_file_name: toast
+        client_payload: '{"url": "https://w5.ab.ust.hk/wcq/cgi-bin/2320/", "repo": "dipsywong98/toast-classquota"}'
