@@ -59,12 +59,12 @@ start_copy() {
   fi
 }
 
-cp toast/website $dir
+cp -r toast/website/* $path
 
 if compgen -G "cache-parts*" > /dev/null; then
   echo "detected cache, unzipping cache"
   cat cache-parts* > cache.tar.gz
-  tar -xvzf cache.tar.gz -C $dir/hts-cache/
+  tar -xvzf cache.tar.gz -C $path/hts-cache/
 fi
 
 (sleep $timeout; on_timeout)&
@@ -73,5 +73,5 @@ check_in
 
 mkdir dist
 
-tar -cvvzf dist/cache.tar.gz $dir/hts-cache/
+tar -cvvzf dist/cache.tar.gz $path/hts-cache/
 split -b 1M dist/cache.tar.gz dist/cache-parts
