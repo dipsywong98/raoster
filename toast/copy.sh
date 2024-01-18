@@ -45,7 +45,7 @@ on_timeout() {
 }
 
 start_copy() {
-  if [ -d "$path" ]; then
+  if [ -d "$path/index.html" ]; then
     if [ -f $lock_file ]; then
       echo "found $lock_file, continue the interrupted copy"
       rm $lock_file
