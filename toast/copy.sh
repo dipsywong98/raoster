@@ -1,5 +1,6 @@
 set -e
 url=$1 # "https://w5.ab.ust.hk/wcq/cgi-bin/2320/"
+git_token=$2
 path="website"
 limit=1000000000000
 timeout=18000 # interrupt if run for 5 hours
@@ -8,7 +9,6 @@ lock_file="$path/hts-paused.lock"
 echo "copy $url to $path"
 
 check_in() {
-  cp -r toast/$path .
   original_dir=$(pwd)
   cd $path
   echo "checking in new changes"
@@ -66,9 +66,10 @@ if compgen -G "cache-parts*" > /dev/null; then
   tar -xvzf cache.tar.gz -C $path
 fi
 
+cp -r toast/$path .
 (sleep $timeout; on_timeout)&
 start_copy
-check_in
+# check_in
 
 mkdir dist
 

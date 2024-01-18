@@ -5,8 +5,10 @@ on:
     inputs:
       url:
         description: the url you want to track
-      repo:
-        description: the repo that save the archive
+      repo-user:
+        description: username of the owner of the repo that save the archive
+      repo-name:
+        description: the name of the repo that save the archive
 
 permissions:
   contents: write
@@ -20,12 +22,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
         with:
-          repository: ${{inputs.repo}}
+          repository: ${{inputs.repo-user}}/${{inputs.repo-name}}
           path: website
       - uses: robinraju/release-downloader@v1.8
         continue-on-error: true
         with:
-          repository: ${{inputs.repo}}
+          repository: ${{inputs.repo-user}}/${{inputs.repo-name}}
           latest: true
           fileName: cache-part*
           tarBall: false
@@ -34,11 +36,19 @@ jobs:
           token: ${{ secrets.TOAST_TOKEN }}
       - run: ls
       - run: sh toast/copy.sh ${{ inputs.url }}
+      - uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.TOAST_TOKEN }}
+        with:
+          source-directory: 'website'
+          destination-github-username: ${{ inputs.repo-user }}
+          destination-repository-name: ${{ inputs.repo-name }}
+          target-branch: main
       - uses: ncipollo/release-action@v1
         with:
           artifacts: dist/cache-parts*
           token: ${{ secrets.TOAST_TOKEN }}
-          repo: ${{inputs.repo}}
+          repo: ${{inputs.repo-user}}/${{inputs.repo-name}}
           tag: cache
           allowUpdates: true
           
