@@ -29,13 +29,15 @@ on_timeout() {
 }
 
 start_copy() {
-  if [ -d "$path" ]; then
+  if [ -d "$path/hts-cache" ]; then
     if [ -f $lock_file ]; then
       echo "found $lock_file, continue the interrupted copy"
+      echo "httrack $url --path $path --verbose --robots=0 --advanced-progressinfo -#L$limit --continue"
       rm $lock_file
       httrack $url --path $path --verbose --robots=0 --advanced-progressinfo -#L$limit --continue
     else
       echo "cannot find $lock_file, update the existing copy"
+      echo "httrack $url --path $path --verbose --robots=0 --advanced-progressinfo -#L$limit --update"
       httrack $url --path $path --verbose --robots=0 --advanced-progressinfo -#L$limit --update
     fi
     else

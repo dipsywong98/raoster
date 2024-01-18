@@ -58,4 +58,5 @@ jobs:
           repo: ${{inputs.repo-name}}
           tag: ${{ inputs.dir }}
           allowUpdates: true
+          removeArtifacts: true
           
