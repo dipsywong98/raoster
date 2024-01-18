@@ -44,19 +44,19 @@ jobs:
           token: ${{ secrets.TOAST_TOKEN }}
       - run: ls
       - run: ls website
-      - run: sh toast/copy.sh ${{ inputs.url }} ${{ inputs.dir }} ${{ inputs.timeout }}
-      - uses: actions/checkout@v4
-        with:
-          repository: ${{inputs.repo-user}}/${{inputs.repo-name}}
-          path: website
-      - uses: cpina/github-action-push-to-another-repository@main
-        env:
-          SSH_DEPLOY_KEY: ${{ secrets.TOAST_SSH_KEY }}
-        with:
-          source-directory: 'website'
-          destination-github-username: ${{ inputs.repo-user }}
-          destination-repository-name: ${{ inputs.repo-name }}
-          target-branch: main
+      - run: sh toast/copy.sh ${{ inputs.url }} ${{ inputs.dir }} ${{ inputs.timeout }} ${{ secrets.TOAST_TOKEN }}
+      # - uses: actions/checkout@v4
+      #   with:
+      #     repository: ${{inputs.repo-user}}/${{inputs.repo-name}}
+      #     path: website
+      # - uses: cpina/github-action-push-to-another-repository@main
+      #   env:
+      #     SSH_DEPLOY_KEY: ${{ secrets.TOAST_SSH_KEY }}
+      #   with:
+      #     source-directory: 'website'
+      #     destination-github-username: ${{ inputs.repo-user }}
+      #     destination-repository-name: ${{ inputs.repo-name }}
+      #     target-branch: main
       - uses: ncipollo/release-action@v1
         with:
           artifacts: dist/cache-parts*

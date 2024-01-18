@@ -4,8 +4,25 @@ path="website/$2"
 limit=1000000000000
 timeout="${3:-18000}" # interrupt if run for 5 hours
 lock_file="$path/hts-paused.lock"
+gh_token=$4
 
 echo "copy $url to $path with timeout $timeout seconds"
+
+check_in() {
+  original_dir=$(pwd)
+  cd website
+  echo "checking in new changes"
+  git config --global user.name "(bot) Dipsy Wong"
+  git config --global user.email "ycwongal@connect.ust.hk"
+  git add .
+  git commit -m "[bot] Updated $url"
+  git rebase
+  git remote set-url origin https://dipsywong98:$gh_token@github.com/dipsywong98/toast.git
+  git push
+  # git remote -v
+  echo "checked in new changes"
+  cd $original_dir
+}
 
 until_file_exists() {
   file=$1
@@ -56,7 +73,7 @@ fi
 cp -r toast/website .
 (sleep $timeout; on_timeout)&
 start_copy
-# check_in
+check_in
 
 mkdir dist
 
