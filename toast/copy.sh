@@ -8,6 +8,7 @@ lock_file="$path/hts-paused.lock"
 echo "copy $url to $path"
 
 check_in() {
+  cp -r toast/$path .
   original_dir=$(pwd)
   cd $path
   echo "checking in new changes"
@@ -55,16 +56,15 @@ start_copy() {
     fi
     else
     echo "cannot find $path, starting a new copy"
+    echo "httrack $url --path $path --verbose --robots=0 --advanced-progressinfo -#L$limit"
     httrack $url --path $path --verbose --robots=0 --advanced-progressinfo -#L$limit
   fi
 }
 
-cp -r toast/$path .
-
 if compgen -G "cache-parts*" > /dev/null; then
   echo "detected cache, unzipping cache"
   cat cache-parts* > cache.tar.gz
-  tar -xvzf cache.tar.gz -C $path/hts-cache/
+  tar -xvzf cache.tar.gz -C $path
 fi
 
 (sleep $timeout; on_timeout)&
