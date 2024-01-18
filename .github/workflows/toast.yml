@@ -35,7 +35,6 @@ jobs:
         continue-on-error: true
         with:
           repository: ${{inputs.repo-user}}/${{inputs.repo-name}}
-          latest: true
           tag: ${{ inputs.dir }}
           fileName: cache-part*
           tarBall: false
