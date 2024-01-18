@@ -8,6 +8,9 @@ on:
       repo:
         description: the repo that save the archive
 
+permissions:
+  contents: write
+
 jobs:
   scrape:
     runs-on: ubuntu-latest
