@@ -29,7 +29,7 @@ on_timeout() {
 }
 
 start_copy() {
-  if [ -d "$path/index.html" ]; then
+  if [ -d "$path" ]; then
     if [ -f $lock_file ]; then
       echo "found $lock_file, continue the interrupted copy"
       rm $lock_file
@@ -45,7 +45,7 @@ start_copy() {
   fi
 }
 
-if compgen -G "cache-parts*" > /dev/null; then
+if [ -f "cache-partsaa" ]; then
   echo "detected cache, unzipping cache"
   cat cache-parts* > cache.tar.gz
   tar -xvzf cache.tar.gz -C $path
@@ -62,4 +62,3 @@ tar -cvvzf dist/cache.tar.gz $path/hts-cache/
 split -b 1M dist/cache.tar.gz dist/cache-parts
 
 # clean up
-rm website/readme

@@ -40,6 +40,7 @@ jobs:
           extract: false
           token: ${{ secrets.TOAST_TOKEN }}
       - run: ls
+      - run: ls website
       - run: sh toast/copy.sh ${{ inputs.url }} ${{ inputs.dir }}
       - uses: cpina/github-action-push-to-another-repository@main
         env:
