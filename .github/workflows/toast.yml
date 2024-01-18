@@ -5,6 +5,8 @@ on:
     inputs:
       url:
         description: the url you want to track
+      dir:
+        description: the dir you store the archive
       repo-user:
         description: username of the owner of the repo that save the archive
       repo-name:
@@ -29,17 +31,17 @@ jobs:
         with:
           repository: ${{inputs.repo-user}}/${{inputs.repo-name}}
           latest: true
+          tag: ${{ inputs.dir }}
           fileName: cache-part*
           tarBall: false
           zipBall: false
           extract: false
           token: ${{ secrets.TOAST_TOKEN }}
       - run: ls
-      - run: sh toast/copy.sh ${{ inputs.url }}
+      - run: sh toast/copy.sh ${{ inputs.url }} ${{ inputs.dir }}
       - uses: cpina/github-action-push-to-another-repository@main
         env:
           SSH_DEPLOY_KEY: ${{ secrets.TOAST_SSH_KEY }}
-          # API_TOKEN_GITHUB: ${{ secrets.TOAST_TOKEN }}
         with:
           source-directory: 'website'
           destination-github-username: ${{ inputs.repo-user }}
@@ -51,6 +53,6 @@ jobs:
           token: ${{ secrets.TOAST_TOKEN }}
           owner: ${{inputs.repo-user}}
           repo: ${{inputs.repo-name}}
-          tag: cache
+          tag: ${{ inputs.dir }}
           allowUpdates: true
           

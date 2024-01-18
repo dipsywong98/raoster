@@ -1,26 +1,11 @@
 set -e
 url=$1 # "https://w5.ab.ust.hk/wcq/cgi-bin/2320/"
-git_token=$2
-path="website"
+path="website/$2"
 limit=1000000000000
 timeout=18000 # interrupt if run for 5 hours
 lock_file="$path/hts-paused.lock"
 
 echo "copy $url to $path"
-
-check_in() {
-  original_dir=$(pwd)
-  cd $path
-  echo "checking in new changes"
-  git config --global user.name "(bot) Dipsy Wong"
-  git config --global user.email "ycwongal@connect.ust.hk"
-  git add .
-  git commit -m "[bot] Updated $url"
-  git rebase
-  git push
-  echo "checked in new changes"
-  cd $original_dir
-}
 
 until_file_exists() {
   file=$1
