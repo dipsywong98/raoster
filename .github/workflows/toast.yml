@@ -38,7 +38,8 @@ jobs:
       - run: sh toast/copy.sh ${{ inputs.url }}
       - uses: cpina/github-action-push-to-another-repository@main
         env:
-          API_TOKEN_GITHUB: ${{ secrets.TOAST_TOKEN }}
+          SSH_DEPLOY_KEY: ${{ secrets.TOAST_SSH_KEY }}
+          # API_TOKEN_GITHUB: ${{ secrets.TOAST_TOKEN }}
         with:
           source-directory: 'website'
           destination-github-username: ${{ inputs.repo-user }}
