@@ -36,3 +36,6 @@ jobs:
           artifacts: dist/cache-parts*
           token: ${{ secrets.TOAST_TOKEN }}
           repo: ${{inputs.repo}}
+          tag: cache
+          allowUpdates: true
+          

@@ -17,8 +17,7 @@ check_in() {
   git add .
   git commit -m "[bot] Updated $url"
   git rebase
-  # git push
-  git remote -v
+  git push
   echo "checked in new changes"
   cd $original_dir
 }
