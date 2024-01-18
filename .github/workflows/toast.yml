@@ -45,6 +45,10 @@ jobs:
       - run: ls
       - run: ls website
       - run: sh toast/copy.sh ${{ inputs.url }} ${{ inputs.dir }} ${{ inputs.timeout }}
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{inputs.repo-user}}/${{inputs.repo-name}}
+          path: website
       - uses: cpina/github-action-push-to-another-repository@main
         env:
           SSH_DEPLOY_KEY: ${{ secrets.TOAST_SSH_KEY }}
