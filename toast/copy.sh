@@ -51,7 +51,7 @@ if compgen -G "cache-parts*" > /dev/null; then
   tar -xvzf cache.tar.gz -C $path
 fi
 
-cp -r toast/$path .
+cp -r toast/website .
 (sleep $timeout; on_timeout)&
 start_copy
 # check_in
