@@ -16,6 +16,6 @@ jobs:
         repo: roaster
         github_token: ${{ secrets.TOAST_TOKEN }}
         workflow_file_name: toast.yml
-        client_payload: '{"url": "https://w5.ab.ust.hk/wcq/cgi-bin/2320/", "dir": "classquota", "timeout": "10"}'
+        client_payload: '{"url": "https://w5.ab.ust.hk/wcq/cgi-bin/2320/", "dir": "classquota"}'
         ref: master
         wait_workflow: false
