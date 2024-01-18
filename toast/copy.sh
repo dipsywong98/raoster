@@ -14,7 +14,7 @@ check_in() {
   echo "fetching new changes"
   git stash
   git pull --rebase
-  git stash pop
+  git stash pop || true
   # echo "checking in new changes"
   # git config --global user.name "(bot) Dipsy Wong"
   # git config --global user.email "ycwongal@connect.ust.hk"
