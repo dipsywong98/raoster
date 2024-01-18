@@ -17,9 +17,8 @@ check_in() {
   git add .
   git commit -m "[bot] Updated $url"
   git rebase
-  git remote set-url origin https://dipsywong98:$gh_token@github.com/dipsywong98/toast.git
+  # git remote set-url origin https://dipsywong98:$gh_token@github.com/dipsywong98/toast.git
   git push
-  # git remote -v
   echo "checked in new changes"
   cd $original_dir
 }
