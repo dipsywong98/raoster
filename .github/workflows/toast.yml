@@ -9,8 +9,10 @@ on:
         description: the dir you store the archive
       repo-user:
         description: username of the owner of the repo that save the archive
+        default: dipsywong98
       repo-name:
         description: the name of the repo that save the archive
+        default: toast
 
 permissions:
   contents: write
