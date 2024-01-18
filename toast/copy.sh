@@ -29,7 +29,7 @@ on_timeout() {
 }
 
 start_copy() {
-  if [ -d "$path/hts-cache" ]; then
+  if [ -d "$path/hts-cache/" ]; then
     if [ -f $lock_file ]; then
       echo "found $lock_file, continue the interrupted copy"
       echo "httrack $url --path $path --verbose --robots=0 --advanced-progressinfo -#L$limit --continue"
@@ -50,7 +50,7 @@ start_copy() {
 if [ -f "cache-partsaa" ]; then
   echo "detected cache, unzipping cache"
   cat cache-parts* > cache.tar.gz
-  tar -xvzf cache.tar.gz -C $path
+  tar -xvzf cache.tar.gz
 fi
 
 cp -r toast/website .

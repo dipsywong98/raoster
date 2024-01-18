@@ -1,4 +1,5 @@
 ./website/
 dist
+cache-*
 cache.tar.gz
 id_*
