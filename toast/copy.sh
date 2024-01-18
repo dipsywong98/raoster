@@ -62,4 +62,4 @@ tar -cvvzf dist/cache.tar.gz $path/hts-cache/
 split -b 1M dist/cache.tar.gz dist/cache-parts
 
 # clean up
-rm readme
+rm website/readme
