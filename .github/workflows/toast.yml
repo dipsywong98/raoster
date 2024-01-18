@@ -44,30 +44,26 @@ jobs:
           token: ${{ secrets.TOAST_TOKEN }}
       - run: ls
       - run: ls website
-      - run: |
-          mkdir --parents "$HOME/.ssh"
-          DEPLOY_KEY_FILE="$HOME/.ssh/deploy_key"
-          echo "${{ secrets.TOAST_SSH_KEY }}" > "$DEPLOY_KEY_FILE"
-          chmod 600 "$DEPLOY_KEY_FILE"
+      # - run: |
+      #     mkdir --parents "$HOME/.ssh"
+      #     DEPLOY_KEY_FILE="$HOME/.ssh/deploy_key"
+      #     echo "${{ secrets.TOAST_SSH_KEY }}" > "$DEPLOY_KEY_FILE"
+      #     chmod 600 "$DEPLOY_KEY_FILE"
 
-          SSH_KNOWN_HOSTS_FILE="$HOME/.ssh/known_hosts"
-          ssh-keyscan -H "github.com" > "$SSH_KNOWN_HOSTS_FILE"
+      #     SSH_KNOWN_HOSTS_FILE="$HOME/.ssh/known_hosts"
+      #     ssh-keyscan -H "github.com" > "$SSH_KNOWN_HOSTS_FILE"
 
-          export GIT_SSH_COMMAND="ssh -i "$DEPLOY_KEY_FILE" -o UserKnownHostsFile=$SSH_KNOWN_HOSTS_FILE"
+      #     export GIT_SSH_COMMAND="ssh -i "$DEPLOY_KEY_FILE" -o UserKnownHostsFile=$SSH_KNOWN_HOSTS_FILE"
 
       - run: sh toast/copy.sh ${{ inputs.url }} ${{ inputs.dir }} ${{ inputs.timeout }} ${{ secrets.TOAST_TOKEN }}
-      # - uses: actions/checkout@v4
-      #   with:
-      #     repository: ${{inputs.repo-user}}/${{inputs.repo-name}}
-      #     path: website
-      # - uses: cpina/github-action-push-to-another-repository@main
-      #   env:
-      #     SSH_DEPLOY_KEY: ${{ secrets.TOAST_SSH_KEY }}
-      #   with:
-      #     source-directory: 'website'
-      #     destination-github-username: ${{ inputs.repo-user }}
-      #     destination-repository-name: ${{ inputs.repo-name }}
-      #     target-branch: main
+      - uses: cpina/github-action-push-to-another-repository@main
+        env:
+          SSH_DEPLOY_KEY: ${{ secrets.TOAST_SSH_KEY }}
+        with:
+          source-directory: 'website'
+          destination-github-username: ${{ inputs.repo-user }}
+          destination-repository-name: ${{ inputs.repo-name }}
+          target-branch: main
       - uses: ncipollo/release-action@v1
         with:
           artifacts: dist/cache-parts*

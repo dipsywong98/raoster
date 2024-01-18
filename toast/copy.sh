@@ -11,15 +11,19 @@ echo "copy $url to $path with timeout $timeout seconds"
 check_in() {
   original_dir=$(pwd)
   cd website
-  echo "checking in new changes"
-  git config --global user.name "(bot) Dipsy Wong"
-  git config --global user.email "ycwongal@connect.ust.hk"
-  git add .
-  git commit -m "[bot] Updated $url"
-  git rebase
-  git remote set-url origin git@github.com:dipsywong98/toast.git
-  git push
-  echo "checked in new changes"
+  echo "fetching new changes"
+  git stash
+  git pull --rebase
+  git stash pop
+  # echo "checking in new changes"
+  # git config --global user.name "(bot) Dipsy Wong"
+  # git config --global user.email "ycwongal@connect.ust.hk"
+  # git add .
+  # git commit -m "[bot] Updated $url"
+  # git rebase
+  # git remote set-url origin git@github.com:dipsywong98/toast.git
+  # git push
+  # echo "checked in new changes"
   cd $original_dir
 }
 
