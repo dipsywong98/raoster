@@ -61,5 +61,5 @@ mkdir dist
 tar -cvvzf dist/cache.tar.gz $path/hts-cache/
 split -b 1M dist/cache.tar.gz dist/cache-parts
 
-rm -rf w5.ab.ust.hk
-rm -rf classquota/hts-cache
+rm -rf website/w5.ab.ust.hk
+rm -rf website/classquota/hts-cache
