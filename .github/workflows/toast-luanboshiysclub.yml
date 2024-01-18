@@ -16,6 +16,6 @@ jobs:
         repo: roaster
         github_token: ${{ secrets.TOAST_TOKEN }}
         workflow_file_name: toast.yml
-        client_payload: '{"url": "http://luanboshiysclub.com/", "dir": "luanboshiysclub", "timeout": "60"}'
+        client_payload: '{"url": "http://luanboshiysclub.com/", "dir": "luanboshiysclub", "timeout": "18000"}'
         ref: master
         wait_workflow: false

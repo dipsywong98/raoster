@@ -43,7 +43,7 @@ jobs:
           token: ${{ secrets.TOAST_TOKEN }}
       - run: ls
       - run: ls website
-      - run: sh toast/copy.sh ${{ inputs.url }} ${{ inputs.dir }} ${{ inputs.timeout }} ${{ secrets.TOAST_TOKEN }}
+      - run: sh toast/copy.sh ${{ inputs.url }} ${{ inputs.dir }} ${{ inputs.timeout }}
       - uses: cpina/github-action-push-to-another-repository@main
         env:
           SSH_DEPLOY_KEY: ${{ secrets.TOAST_SSH_KEY }}

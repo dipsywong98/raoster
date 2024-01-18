@@ -4,26 +4,16 @@ path="website/$2"
 limit=1000000000000
 timeout="${3:-18000}" # interrupt if run for 5 hours
 lock_file="$path/hts-paused.lock"
-gh_token=$4
 
 echo "copy $url to $path with timeout $timeout seconds"
 
-check_in() {
+pull_rebase() {
   original_dir=$(pwd)
   cd website
   echo "fetching new changes"
   git stash
   git pull --rebase
   git stash pop || true
-  # echo "checking in new changes"
-  # git config --global user.name "(bot) Dipsy Wong"
-  # git config --global user.email "ycwongal@connect.ust.hk"
-  # git add .
-  # git commit -m "[bot] Updated $url"
-  # git rebase
-  # git remote set-url origin git@github.com:dipsywong98/toast.git
-  # git push
-  # echo "checked in new changes"
   cd $original_dir
 }
 
@@ -43,9 +33,7 @@ on_timeout() {
   until_file_exists $lock_file
   kill -s INT $(ps -C httrack --no-headers -o pid)
   sleep 5
-  # check_in
   kill -s INT $(ps -C httrack --no-headers -o pid)
-  # exit 0
 }
 
 start_copy() {
@@ -76,11 +64,11 @@ fi
 cp -r toast/website .
 (sleep $timeout; on_timeout)&
 start_copy
-check_in
+pull_rebase
 
 mkdir dist
 
 tar -cvvzf dist/cache.tar.gz $path/hts-cache/
-split -b 1M dist/cache.tar.gz dist/cache-parts
+split -b 2000M dist/cache.tar.gz dist/cache-parts
 
 # clean up
