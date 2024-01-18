@@ -1,2 +1,3 @@
 copy.sh
 hts-cache/*
+**/hts-cache/*
