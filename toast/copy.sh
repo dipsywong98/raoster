@@ -2,10 +2,10 @@ set -e
 url=$1 # "https://w5.ab.ust.hk/wcq/cgi-bin/2320/"
 path="website/$2"
 limit=1000000000000
-timeout=18000 # interrupt if run for 5 hours
+timeout="${3:-18000}" # interrupt if run for 5 hours
 lock_file="$path/hts-paused.lock"
 
-echo "copy $url to $path"
+echo "copy $url to $path with timeout $timeout seconds"
 
 until_file_exists() {
   file=$1

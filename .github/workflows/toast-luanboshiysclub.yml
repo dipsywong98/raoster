@@ -1,0 +1,21 @@
+name: toast-luanboshiysclub
+
+on:
+  workflow_dispatch:
+    inputs: {}
+  schedule:
+    - cron: 45 0-23/6 * * *
+
+jobs:
+  toast:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: convictional/trigger-workflow-and-wait@v1.6.1
+      with:
+        owner: dipsywong98
+        repo: roaster
+        github_token: ${{ secrets.TOAST_TOKEN }}
+        workflow_file_name: toast.yml
+        client_payload: '{"url": "http://luanboshiysclub.com/", "dir": "luanboshiysclub", "timeout": "60"}'
+        ref: master
+        wait_workflow: false
