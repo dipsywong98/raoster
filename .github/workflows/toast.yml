@@ -18,7 +18,6 @@ on:
         default: "18000"
       ssh-key:
         description: key to push to target repo
-        default: ${{ secrets.TOAST_SSH_KEY }}
 
 permissions:
   contents: write
