@@ -1,0 +1,21 @@
+name: toast-dse.life
+
+on:
+  workflow_dispatch:
+    inputs: {}
+  schedule:
+    - cron: 0 3 * * *
+
+jobs:
+  toast:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: convictional/trigger-workflow-and-wait@v1.6.1
+      with:
+        owner: dipsywong98
+        repo: roaster
+        github_token: ${{ secrets.TOAST_TOKEN }}
+        workflow_file_name: toast.yml
+        client_payload: '{"url": "http://dse.life/", "dir": "", "timeout": "18000", "repo-name": "dse.life"}'
+        ref: master
+        wait_workflow: false
