@@ -31,6 +31,7 @@ jobs:
         with:
           repository: ${{inputs.repo-user}}/${{inputs.repo-name}}
           path: website
+          token: ${{ secrets.TOAST_TOKEN }}
       - uses: robinraju/release-downloader@v1.8
         continue-on-error: true
         with:
