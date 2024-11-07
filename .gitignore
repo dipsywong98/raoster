@@ -3,3 +3,5 @@ dist
 cache-*
 cache.tar.gz
 id_*
+node_modules
+cdn/*
