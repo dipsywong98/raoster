@@ -43,20 +43,20 @@ jobs:
           repository: ${{inputs.repo-user}}/${{inputs.repo-name}}
           path: website
           token: ${{ secrets.TOAST_TOKEN }}
-      - uses: robinraju/release-downloader@v1.8
-        continue-on-error: true
-        with:
-          repository: ${{inputs.repo-user}}/${{inputs.repo-name}}
-          tag: ${{ inputs.dir }}
-          fileName: toast-cache.sqlite
-          tarBall: false
-          zipBall: false
-          extract: false
-          token: ${{ secrets.TOAST_TOKEN }}
+      # - uses: robinraju/release-downloader@v1.8
+      #   continue-on-error: true
+      #   with:
+      #     repository: ${{inputs.repo-user}}/${{inputs.repo-name}}
+      #     tag: ${{ inputs.dir }}
+      #     fileName: toast-cache.sqlite
+      #     tarBall: false
+      #     zipBall: false
+      #     extract: false
+      #     token: ${{ secrets.TOAST_TOKEN }}
       - run: ls
       - run: ls website
       - uses: oven-sh/setup-bun@v2
-      - run: timeout ${{ inputs.timeout }} bun toast.js -u ${{ inputs.url }} -o ${{ inputs.dir }} --db website.sqlite --resume
+      - run: timeout ${{ inputs.timeout }} bun toast.js -u ${{ inputs.url }} -o ${{ inputs.dir }} --db website/website.sqlite --resume
       - uses: cpina/github-action-push-to-another-repository@main
         env:
           SSH_DEPLOY_KEY: ${{ inputs.ssh-key }}
@@ -65,13 +65,13 @@ jobs:
           destination-github-username: ${{ inputs.repo-user }}
           destination-repository-name: ${{ inputs.repo-name }}
           target-branch: main
-      - uses: ncipollo/release-action@v1
-        with:
-          artifacts: toast-cache.sqlite
-          token: ${{ secrets.TOAST_TOKEN }}
-          owner: ${{inputs.repo-user}}
-          repo: ${{inputs.repo-name}}
-          tag: ${{ inputs.dir }}
-          allowUpdates: true
-          removeArtifacts: true
+      # - uses: ncipollo/release-action@v1
+      #   with:
+      #     artifacts: toast-cache.sqlite
+      #     token: ${{ secrets.TOAST_TOKEN }}
+      #     owner: ${{inputs.repo-user}}
+      #     repo: ${{inputs.repo-name}}
+      #     tag: ${{ inputs.dir }}
+      #     allowUpdates: true
+      #     removeArtifacts: true
           
