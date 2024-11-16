@@ -59,7 +59,7 @@ jobs:
           token: ${{ secrets.TOAST_TOKEN }}
       - run: ls
       - run: ls website
-      - run: timeout --foreground --preserve-status -s SIGINT ${{ inputs.timeout }} bun toast.js -u ${{ inputs.url }} -o website/${{ inputs.dir }} --db toast-cache.sqlite --resume
+      - run: timeout --foreground --preserve-status -s SIGINT ${{ inputs.timeout }} bun toast.js -u ${{ inputs.url }} -o website/${{ inputs.dir }} --db toast-cache.sqlite --resume --fresh=${{ inputs.fresh }}
       - uses: cpina/github-action-push-to-another-repository@main
         env:
           SSH_DEPLOY_KEY: ${{ inputs.ssh-key }}
