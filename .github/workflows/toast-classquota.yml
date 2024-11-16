@@ -4,16 +4,17 @@ on:
   workflow_dispatch:
     inputs: 
       workflow_file_name:
-        type: choice
+        type: string
         description: which workflow file to trigger
-        options:
-          - toast2.yml
-          - toast.yml
         default: toast2.yml
       timeout:
         type: number
         description: the timeout for the workflow
         default: 18000
+      fresh:
+        type: boolean
+        description: if true, it will drop all content in toast-cache.sqlite before downloading
+        default: false
   push:
     branches: ["**"]
 
@@ -27,6 +28,6 @@ jobs:
         repo: roaster
         github_token: ${{ secrets.TOAST_TOKEN }}
         workflow_file_name: ${{ github.event.inputs.workflow_file_name }}
-        client_payload: '{"url": "https://w5.ab.ust.hk/wcq/cgi-bin/2320/", "timeout": "${{ github.event.inputs.timeout }}", "dir": "classquota", "repo-name": "toast-class-quota", "ssh-key": "${{ secrets.TOAST_CLASS_QUOTA_SSH_KEY }}"}'
+        client_payload: '{"url": "https://w5.ab.ust.hk/wcq/cgi-bin/2320/", "timeout": "${{ github.event.inputs.timeout }}", "dir": "classquota", "repo-name": "toast-class-quota", "ssh-key": "${{ secrets.TOAST_CLASS_QUOTA_SSH_KEY }}", "fresh": "${{ github.event.inputs.fresh }}"}'
         ref: master
         wait_workflow: false
