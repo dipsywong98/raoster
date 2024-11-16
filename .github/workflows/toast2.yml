@@ -1,0 +1,76 @@
+name: toast
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: the url you want to track
+      dir:
+        description: the dir you store the archive
+      repo-user:
+        description: username of the owner of the repo that save the archive
+        default: dipsywong98
+      repo-name:
+        description: the name of the repo that save the archive
+        default: toast
+      timeout:
+        description: seconds to pause and check in
+        default: "18000"
+      ssh-key:
+        description: key to push to target repo
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: download toast
+        uses: robinraju/release-downloader@v1.8
+        continue-on-error: true
+        with:
+          repository: dipsywong98/toaster
+          latest: true
+          fileName: toast
+          tarBall: false
+          zipBall: false
+          extract: false
+          token: ${{ secrets.TOAST_TOKEN }}
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{inputs.repo-user}}/${{inputs.repo-name}}
+          path: website
+          token: ${{ secrets.TOAST_TOKEN }}
+      - uses: robinraju/release-downloader@v1.8
+        continue-on-error: true
+        with:
+          repository: ${{inputs.repo-user}}/${{inputs.repo-name}}
+          tag: ${{ inputs.dir }}
+          fileName: toast-cache.sqlite
+          tarBall: false
+          zipBall: false
+          extract: false
+          token: ${{ secrets.TOAST_TOKEN }}
+      - run: ls
+      - run: ls website
+      - run: timeout ${{ inputs.timeout }} ./toast -u ${{ inputs.url }} -o ${{ inputs.dir }} --db website.sqlite --resume
+      - uses: cpina/github-action-push-to-another-repository@main
+        env:
+          SSH_DEPLOY_KEY: ${{ inputs.ssh-key }}
+        with:
+          source-directory: 'website'
+          destination-github-username: ${{ inputs.repo-user }}
+          destination-repository-name: ${{ inputs.repo-name }}
+          target-branch: main
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: toast-cache.sqlite
+          token: ${{ secrets.TOAST_TOKEN }}
+          owner: ${{inputs.repo-user}}
+          repo: ${{inputs.repo-name}}
+          tag: ${{ inputs.dir }}
+          allowUpdates: true
+          removeArtifacts: true
+          
