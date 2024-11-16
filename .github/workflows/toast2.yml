@@ -18,6 +18,9 @@ on:
         default: "18000"
       ssh-key:
         description: key to push to target repo
+      fresh:
+        description: if true, it will drop all content in toast-cache.sqlite before downloading
+        default: "false"
 
 permissions:
   contents: write
