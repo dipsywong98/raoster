@@ -55,6 +55,7 @@ jobs:
           token: ${{ secrets.TOAST_TOKEN }}
       - run: ls
       - run: ls website
+      - run: chmod +x toast
       - run: timeout ${{ inputs.timeout }} ./toast -u ${{ inputs.url }} -o ${{ inputs.dir }} --db website.sqlite --resume
       - uses: cpina/github-action-push-to-another-repository@main
         env:
