@@ -26,6 +26,7 @@ jobs:
   scrape:
     runs-on: ubuntu-latest
     steps:
+      - uses: oven-sh/setup-bun@v2
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
         with:
@@ -48,15 +49,14 @@ jobs:
         with:
           repository: dipsywong98/toaster
           latest: true
-          fileName: toast/toast.js
+          fileName: toast.js
           tarBall: false
           zipBall: false
           extract: false
           token: ${{ secrets.TOAST_TOKEN }}
       - run: ls
       - run: ls website
-      - uses: oven-sh/setup-bun@v2
-      - run: timeout ${{ inputs.timeout }} bun toast/toast.js -u ${{ inputs.url }} -o ${{ inputs.dir }} --db toast-cache.sqlite --resume
+      - run: timeout ${{ inputs.timeout }} bun toast.js -u ${{ inputs.url }} -o ${{ inputs.dir }} --db toast-cache.sqlite --resume
       - uses: cpina/github-action-push-to-another-repository@main
         env:
           SSH_DEPLOY_KEY: ${{ inputs.ssh-key }}
