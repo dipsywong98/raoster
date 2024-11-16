@@ -10,6 +10,10 @@ on:
           - toast2.yml
           - toast.yml
         default: toast2.yml
+      timeout:
+        type: number
+        description: the timeout for the workflow
+        default: 18000
   push:
     branches: ["**"]
 
@@ -23,6 +27,6 @@ jobs:
         repo: roaster
         github_token: ${{ secrets.TOAST_TOKEN }}
         workflow_file_name: ${{ github.event.inputs.workflow_file_name }}
-        client_payload: '{"url": "https://w5.ab.ust.hk/wcq/cgi-bin/2320/", "timeout": "10", "dir": "classquota", "repo-name": "toast-class-quota", "ssh-key": "${{ secrets.TOAST_CLASS_QUOTA_SSH_KEY }}"}'
+        client_payload: '{"url": "https://w5.ab.ust.hk/wcq/cgi-bin/2320/", "timeout": "${{ github.event.inputs.timeout }}", "dir": "classquota", "repo-name": "toast-class-quota", "ssh-key": "${{ secrets.TOAST_CLASS_QUOTA_SSH_KEY }}"}'
         ref: master
         wait_workflow: false
