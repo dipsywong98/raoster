@@ -56,7 +56,7 @@ jobs:
       - run: ls
       - run: ls website
       - uses: oven-sh/setup-bun@v2
-      - run: timeout ${{ inputs.timeout }} bun toast -u ${{ inputs.url }} -o ${{ inputs.dir }} --db website/website.sqlite --resume
+      - run: timeout ${{ inputs.timeout }} bun /home/runner/work/roaster/roaster/toast.js -u ${{ inputs.url }} -o ${{ inputs.dir }} --db website/website.sqlite --resume
       - uses: cpina/github-action-push-to-another-repository@main
         env:
           SSH_DEPLOY_KEY: ${{ inputs.ssh-key }}
