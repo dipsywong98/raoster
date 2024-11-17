@@ -21,6 +21,12 @@ on:
       fresh:
         description: if true, it will drop all content in toast-cache.sqlite before downloading
         default: "false"
+      sync-period:
+        description: ms to sync the website
+        default: "10000"
+      parallel:
+        description: number of parallel requests to download
+        default: "4"
 
 permissions:
   contents: write
@@ -62,7 +68,7 @@ jobs:
       - run: ./toast/set_git.sh ${{ inputs.dir }} website ${{ inputs.repo-user }} ${{ inputs.repo-name }} github.com ycwongal@connect.ust.hk "Dipsy Wong" ${{ inputs.repo-user }} main "Update from ORIGIN_COMMIT" true
         env:
           SSH_DEPLOY_KEY: ${{ secrets[github.event.inputs.ssh-key]}}
-      - run: timeout --foreground --preserve-status -s SIGINT ${{ inputs.timeout }} bun toast.js -u ${{ inputs.url }} -o website --db toast-cache.sqlite --resume --fresh=${{ inputs.fresh }} --sync-period=10000
+      - run: timeout --foreground --preserve-status -s SIGINT ${{ inputs.timeout }} bun toast.js -u ${{ inputs.url }} -o website --db toast-cache.sqlite --resume --fresh=${{ inputs.fresh }} --sync-period=${{ inputs.sync-period }} -p ${{ inputs.parallel }}
       - name: compute zip file name
         id: compute_zip
         run: |

@@ -15,6 +15,12 @@ on:
         type: boolean
         description: if true, it will drop all content in toast-cache.sqlite before downloading
         default: false
+      sync-period:
+        description: ms to sync the website
+        default: "10000"
+      parallel:
+        description: number of parallel requests to download
+        default: "1"
   schedule:
     - cron: 0 3 * * *
 
@@ -28,6 +34,6 @@ jobs:
         repo: roaster
         github_token: ${{ secrets.TOAST_TOKEN }}
         workflow_file_name: ${{ github.event.inputs.workflow_file_name || 'toast2.yml' }}
-        client_payload: '{"url": "https://dse.life/", "dir": "dse-life", "timeout": "${{ github.event.inputs.timeout || 18000 }}", "repo-name": "dse.life", "ssh-key": "TOAST_DSE_LIFE_SSH_KEY", "fresh": "${{ github.event.inputs.fresh || false }}"}'
+        client_payload: '{"url": "https://dse.life/", "dir": "dse-life", "timeout": "${{ github.event.inputs.timeout || 18000 }}", "repo-name": "dse.life", "ssh-key": "TOAST_DSE_LIFE_SSH_KEY", "fresh": "${{ github.event.inputs.fresh || false }}", "sync-period": "${{ github.event.inputs.sync-period || 10000 }}", "parallel": "${{ github.event.inputs.parallel || 4 }}"}'
         ref: master
         wait_workflow: false
