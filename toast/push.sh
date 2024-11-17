@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e  # if a command fails it stops the execution
+set -u  # script fails if trying to access to an undefined variable
+
 SOURCE_BEFORE_DIRECTORY="${1}"
 SOURCE_DIRECTORY="${2}"
 DESTINATION_GITHUB_USERNAME="${3}"
@@ -37,6 +40,16 @@ COMMIT_MESSAGE="${COMMIT_MESSAGE/\$GITHUB_REF/$GITHUB_REF}"
 
 
 cd "$SOURCE_DIRECTORY"
+
+echo "[+] Adding git commit"
 git add .
-git commit -m "$COMMIT_MESSAGE"
+
+echo "[+] git status:"
+git status
+
+echo "[+] git diff-index:"
+# git diff-index : to avoid doing the git commit failing if there are no changes to be commit
+git diff-index --quiet HEAD || git commit --message "$COMMIT_MESSAGE"
+
+echo "[+] git push:"
 git push "$GIT_CMD_REPOSITORY" "$TARGET_BRANCH"
