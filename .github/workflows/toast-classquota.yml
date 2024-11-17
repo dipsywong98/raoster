@@ -15,8 +15,8 @@ on:
         type: boolean
         description: if true, it will drop all content in toast-cache.sqlite before downloading
         default: false
-  push:
-    branches: ["**"]
+  # push:
+  #   branches: ["**"]
 
 jobs:
   toast:
