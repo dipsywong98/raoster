@@ -2,7 +2,19 @@ name: toast-dse.life
 
 on:
   workflow_dispatch:
-    inputs: {}
+    inputs:
+      workflow_file_name:
+        type: string
+        description: which workflow file to trigger
+        default: toast2.yml
+      timeout:
+        type: number
+        description: the timeout for the workflow
+        default: 18000
+      fresh:
+        type: boolean
+        description: if true, it will drop all content in toast-cache.sqlite before downloading
+        default: false
   schedule:
     - cron: 0 3 * * *
 
@@ -15,7 +27,7 @@ jobs:
         owner: dipsywong98
         repo: roaster
         github_token: ${{ secrets.TOAST_TOKEN }}
-        workflow_file_name: toast.yml
-        client_payload: '{"url": "https://dse.life/", "dir": "dse-life", "timeout": "18000", "repo-name": "dse.life", "ssh-key": "${{ secrets.TOAST_DSE_LIFE_SSH_KEY }}"}'
+        workflow_file_name: ${{ github.event.inputs.workflow_file_name }}
+        client_payload: '{"url": "https://dse.life/", "dir": "dse-life", "timeout": ${{ github.event.inputs.timeout }}, "repo-name": "dse.life", "ssh-key": "${{ secrets.TOAST_DSE_LIFE_SSH_KEY }}"}'
         ref: master
         wait_workflow: false
