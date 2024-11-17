@@ -12,11 +12,6 @@ TARGET_DIRECTORY="${11}"
 CREATE_TARGET_BRANCH_IF_NEEDED="${12}"
 
 
-          source-directory: 'website'
-          destination-github-username: ${{ inputs.repo-user }}
-          destination-repository-name: ${{ inputs.repo-name }}
-          target-branch: main
-
 mkdir --parents "$HOME/.ssh"
 DEPLOY_KEY_FILE="$HOME/.ssh/deploy_key"
 echo "${SSH_DEPLOY_KEY}" > "$DEPLOY_KEY_FILE"
