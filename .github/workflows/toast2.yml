@@ -31,6 +31,11 @@ jobs:
     steps:
       - uses: oven-sh/setup-bun@v2
       - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{inputs.repo-user}}/${{inputs.repo-name}}
+          path: website
+          token: ${{ secrets.TOAST_TOKEN }}
       - uses: robinraju/release-downloader@v1.8
         continue-on-error: true
         with:
@@ -53,7 +58,7 @@ jobs:
           extract: false
           token: ${{ secrets.TOAST_TOKEN }}
       - run: ls
-      # - run: ls website
+      - run: ls website
       - run: timeout --foreground --preserve-status -s SIGINT ${{ inputs.timeout }} bun toast.js -u ${{ inputs.url }} -o website --db toast-cache.sqlite --resume --fresh=${{ inputs.fresh }}
       - name: compute zip file name
         id: compute_zip
@@ -70,14 +75,17 @@ jobs:
           tag: ${{ inputs.dir }}
           allowUpdates: true
           removeArtifacts: true
-      - uses: cpina/github-action-push-to-another-repository@main
+      - run: ./toast/push.sh ${{ inputs.dir }} website ${{ inputs.repo-user }} ${{ inputs.repo-name }} ${{ github.server_url }} ycwongal@connect.ust.hk "Dipsy Wong" ${{ inputs.repo-user }} main ${{ inputs.dir }} true
         env:
           SSH_DEPLOY_KEY: ${{ inputs.ssh-key }}
-        with:
-          source-directory: 'website'
-          destination-github-username: ${{ inputs.repo-user }}
-          destination-repository-name: ${{ inputs.repo-name }}
-          target-branch: main
+      # - uses: cpina/github-action-push-to-another-repository@main
+      #   env:
+      #     SSH_DEPLOY_KEY: ${{ inputs.ssh-key }}
+      #   with:
+      #     source-directory: 'website'
+      #     destination-github-username: ${{ inputs.repo-user }}
+      #     destination-repository-name: ${{ inputs.repo-name }}
+      #     target-branch: main
       - uses: ncipollo/release-action@v1
         with:
           artifacts: toast-cache.sqlite
