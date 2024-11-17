@@ -60,6 +60,21 @@ jobs:
       - run: ls
       - run: ls website
       - run: timeout --foreground --preserve-status -s SIGINT ${{ inputs.timeout }} bun toast.js -u ${{ inputs.url }} -o website --db toast-cache.sqlite --resume --fresh=${{ inputs.fresh }}
+      - name: compute zip file name
+        id: compute_zip
+        run: |
+          VALUE="website-$(date +%Y%m%d).zip"
+          echo "::set-output name=zip_name::$VALUE"
+      - run: zip -r ${{ steps.compute_zip.outputs.zip_name }} website
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: ${{ steps.compute_zip.outputs.zip_name }}
+          token: ${{ secrets.TOAST_TOKEN }}
+          owner: ${{inputs.repo-user}}
+          repo: ${{inputs.repo-name}}
+          tag: ${{ inputs.dir }}
+          allowUpdates: true
+          removeArtifacts: true
       - uses: cpina/github-action-push-to-another-repository@main
         env:
           SSH_DEPLOY_KEY: ${{ inputs.ssh-key }}
