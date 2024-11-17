@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -e  # if a command fails it stops the execution
-set -u  # script fails if trying to access to an undefined variable
 
 SOURCE_BEFORE_DIRECTORY="${1}"
 SOURCE_DIRECTORY="${2}"
