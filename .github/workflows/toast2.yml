@@ -53,7 +53,7 @@ jobs:
           extract: false
           token: ${{ secrets.TOAST_TOKEN }}
       - run: ls
-      - run: ls website
+      # - run: ls website
       - run: timeout --foreground --preserve-status -s SIGINT ${{ inputs.timeout }} bun toast.js -u ${{ inputs.url }} -o website --db toast-cache.sqlite --resume --fresh=${{ inputs.fresh }}
       - name: compute zip file name
         id: compute_zip
