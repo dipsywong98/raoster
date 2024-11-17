@@ -59,15 +59,17 @@ jobs:
           token: ${{ secrets.TOAST_TOKEN }}
       - run: ls
       - run: ls website
+      - run: ./toast/set_git.sh ${{ inputs.dir }} website ${{ inputs.repo-user }} ${{ inputs.repo-name }} github.com ycwongal@connect.ust.hk "Dipsy Wong" ${{ inputs.repo-user }} main "Update from ORIGIN_COMMIT" true
+        env:
+          SSH_DEPLOY_KEY: ${{ secrets[github.event.inputs.ssh-key]}}
+      - run: ./toast/periodic_push.sh website &
       - run: timeout --foreground --preserve-status -s SIGINT ${{ inputs.timeout }} bun toast.js -u ${{ inputs.url }} -o website --db toast-cache.sqlite --resume --fresh=${{ inputs.fresh }}
       - name: compute zip file name
         id: compute_zip
         run: |
           VALUE="website-$(date +%Y%m%d).zip"
           echo "::set-output name=zip_name::$VALUE"
-      - run: ./toast/push.sh ${{ inputs.dir }} website ${{ inputs.repo-user }} ${{ inputs.repo-name }} github.com ycwongal@connect.ust.hk "Dipsy Wong" ${{ inputs.repo-user }} main "Update from ORIGIN_COMMIT" true
-        env:
-          SSH_DEPLOY_KEY: ${{ secrets[github.event.inputs.ssh-key]}}
+      - run: ./toast/push.sh website
       # - uses: cpina/github-action-push-to-another-repository@main
       #   env:
       #     SSH_DEPLOY_KEY: ${{ inputs.ssh-key }}
