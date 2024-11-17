@@ -17,7 +17,7 @@ on:
         description: seconds to pause and check in
         default: "18000"
       ssh-key:
-        description: key to push to target repo
+        description: secret name of the ssh key to push to target repo
       fresh:
         description: if true, it will drop all content in toast-cache.sqlite before downloading
         default: "false"
@@ -65,19 +65,9 @@ jobs:
         run: |
           VALUE="website-$(date +%Y%m%d).zip"
           echo "::set-output name=zip_name::$VALUE"
-      - run: zip -r ${{ steps.compute_zip.outputs.zip_name }} website
-      - uses: ncipollo/release-action@v1
-        with:
-          artifacts: ${{ steps.compute_zip.outputs.zip_name }}
-          token: ${{ secrets.TOAST_TOKEN }}
-          owner: ${{inputs.repo-user}}
-          repo: ${{inputs.repo-name}}
-          tag: ${{ inputs.dir }}
-          allowUpdates: true
-          removeArtifacts: true
-      - run: ./toast/push.sh ${{ inputs.dir }} website ${{ inputs.repo-user }} ${{ inputs.repo-name }} ${{ github.server_url }} ycwongal@connect.ust.hk "Dipsy Wong" ${{ inputs.repo-user }} main ${{ inputs.dir }} true
+      - run: ./toast/push.sh ${{ inputs.dir }} website ${{ inputs.repo-user }} ${{ inputs.repo-name }} github.com ycwongal@connect.ust.hk "Dipsy Wong" ${{ inputs.repo-user }} main ${{ inputs.dir }} true
         env:
-          SSH_DEPLOY_KEY: ${{ inputs.ssh-key }}
+          SSH_DEPLOY_KEY: ${{ secrets.$INPUT_SSH_KEY }}
       # - uses: cpina/github-action-push-to-another-repository@main
       #   env:
       #     SSH_DEPLOY_KEY: ${{ inputs.ssh-key }}
