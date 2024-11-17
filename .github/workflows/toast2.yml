@@ -67,7 +67,7 @@ jobs:
           echo "::set-output name=zip_name::$VALUE"
       - run: ./toast/push.sh ${{ inputs.dir }} website ${{ inputs.repo-user }} ${{ inputs.repo-name }} github.com ycwongal@connect.ust.hk "Dipsy Wong" ${{ inputs.repo-user }} main ${{ inputs.dir }} true
         env:
-          SSH_DEPLOY_KEY: ${{ secrets.$INPUT_SSH_KEY }}
+          SSH_DEPLOY_KEY: ${{ secrets[github.event.inputs.ssh-key]}}
       # - uses: cpina/github-action-push-to-another-repository@main
       #   env:
       #     SSH_DEPLOY_KEY: ${{ inputs.ssh-key }}
