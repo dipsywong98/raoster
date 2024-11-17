@@ -18,6 +18,10 @@ on:
         default: "18000"
       ssh-key:
         description: key to push to target repo
+      fresh:
+        type: boolean
+        description: a dummy input to align with other toast workflows
+        default: false
 
 permissions:
   contents: write

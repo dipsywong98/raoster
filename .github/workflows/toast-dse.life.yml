@@ -27,7 +27,7 @@ jobs:
         owner: dipsywong98
         repo: roaster
         github_token: ${{ secrets.TOAST_TOKEN }}
-        workflow_file_name: ${{ github.event.inputs.workflow_file_name }}
-        client_payload: '{"url": "https://dse.life/", "dir": "dse-life", "timeout": ${{ github.event.inputs.timeout }}, "repo-name": "dse.life", "ssh-key": "${{ secrets.TOAST_DSE_LIFE_SSH_KEY }}"}'
+        workflow_file_name: ${{ github.event.inputs.workflow_file_name || 'toast2.yml' }}
+        client_payload: '{"url": "https://dse.life/", "dir": "dse-life", "timeout": ${{ github.event.inputs.timeout || 18000 }}, "repo-name": "dse.life", "ssh-key": "${{ secrets.TOAST_DSE_LIFE_SSH_KEY }}", "fresh": ${{ github.event.inputs.fresh || false }}'
         ref: master
         wait_workflow: false
