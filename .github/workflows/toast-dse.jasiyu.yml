@@ -1,0 +1,39 @@
+name: toast-jasiyu
+
+on:
+  workflow_dispatch:
+    inputs:
+      workflow_file_name:
+        type: string
+        description: which workflow file to trigger
+        default: toast2.yml
+      timeout:
+        type: number
+        description: the timeout for the workflow
+        default: 18000
+      fresh:
+        type: boolean
+        description: if true, it will drop all content in toast-cache.sqlite before downloading
+        default: false
+      sync-period:
+        description: ms to sync the website
+        default: "10000"
+      parallel:
+        description: number of parallel requests to download
+        default: "1"
+  schedule:
+    - cron: 0 5 * * *
+
+jobs:
+  toast:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: convictional/trigger-workflow-and-wait@v1.6.1
+      with:
+        owner: dipsywong98
+        repo: roaster
+        github_token: ${{ secrets.TOAST_TOKEN }}
+        workflow_file_name: ${{ github.event.inputs.workflow_file_name || 'toast2.yml' }}
+        client_payload: '{"url": "https://jasiyu.com/", "dir": "jasiyu", "timeout": "${{ github.event.inputs.timeout || 18000 }}", "repo-name": "jasiyu.com", "ssh-key": "TOAST_JASIYU_SSH_KEY", "fresh": "${{ github.event.inputs.fresh || false }}", "sync-period": "${{ github.event.inputs.sync-period || 10000 }}", "parallel": "${{ github.event.inputs.parallel || 4 }}"}'
+        ref: master
+        wait_workflow: false

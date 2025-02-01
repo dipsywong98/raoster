@@ -1,4 +1,4 @@
-name: toast
+name: toast2
 
 on:
   workflow_dispatch:
