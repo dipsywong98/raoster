@@ -17,12 +17,12 @@ on:
         default: false
       sync-period:
         description: ms to sync the website
-        default: "10000"
+        default: "60000"
       parallel:
         description: number of parallel requests to download
         default: "1"
   schedule:
-    - cron: 0 5 * * *
+    - cron: 0 5 * * SUN
 
 jobs:
   toast:
